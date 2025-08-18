@@ -1,0 +1,19 @@
+workflows:
+  build-android-apk:
+    name: Build Android APK
+    max_build_duration: 60
+    environment:
+      flutter: stable
+    scripts:
+      - name: Ensure Flutter project structure
+        script: |
+          if [ ! -d "android" ]; then
+            echo "Android folder missing -> running flutter create"
+            flutter create .
+          fi
+      - name: Get dependencies
+        script: flutter pub get
+      - name: Build APK (release)
+        script: flutter build apk --release
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
